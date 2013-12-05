@@ -1,7 +1,10 @@
 webkanban
 =========
 
-This prototype for a web kanban board was developed in connection with my mater thesis:
+By: Per Thykjaer Jensen
+Licence: (c) GPLv3 2014
+
+This prototype for a web kanban board was developed in connection with my master thesis:
 "Web Kanban and the Reflective Practiconer"
 (Aarhus University 2013, grade: A)
 
