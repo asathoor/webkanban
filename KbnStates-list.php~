@@ -1,0 +1,212 @@
+<? 
+include('config.php');
+
+/**
+* Class creating buttons etc.
+*/
+
+class KbnProjects {
+
+	// The edit form
+	public function edit($action, $value) {
+		return "<form action='"
+		. $action
+		."' method='post' enctype='multipart/form-data'>
+			<button name='EditKbnProject' value='"
+			. $value
+			. "' type='submit'>Edit</button>
+		</form>
+		";
+	}
+
+	// The delete button
+	public function delete($action, $deleteMe) {
+		return "
+		<form action='"
+		. $action
+		. "' method='post' enctype='multipart/form-data'>
+			<button name='DeleteKanbanProject' value='"
+			. $deleteMe
+			."' type='submit'>Delete</button>
+		</form>	";
+		echo $deleteMe;
+				
+
+	}
+
+	// The create a new entry button
+	public function newKbn() {
+		return "
+		<form action='' method='post' enctype='multipart/form-data'>
+			<button name='NewKbnProjectSubmit' value='value' type='submit'>New States</button>
+		</form>
+		";
+	}
+
+	public function selectBox($table, $col){
+		// select column
+
+
+		// selectbox
+		echo "
+		<input type='hidden' name='SelectId' value='SelectId' />
+
+		<select>
+			<option value='SelectText'>Text</option>
+		</select>
+		";
+
+	}
+}
+
+$KbnStatesCRUD = new KbnProjects(); // klassen instantieres via config.php
+
+/**
+* Edit Form Inkluderes
+*/
+
+if(isset($_POST['EditKbnProject'])) {
+	include('KbnStates-edit.php'); 
+}
+
+/**
+* New Entry in the log
+*/
+
+if(isset($_POST['NewKbnProjectSubmit'])) {
+      include('KbnStates-new.php'); // redigerer felterne
+}
+
+/**
+* New Entry Entered in DB
+*/
+
+if (isset($_POST['State'])) { 
+	// echo "Ok, der er altså klikke på submitknappen";
+	// "INSERT INTO `multimusen_dk`.`KbnStates` (`Id`, `KbnProjects_Id`, `Color`, `Limit`, `State`) VALUES (NULL, \'1\', \'Greenish\', \'3\', \'Wakeup\');";	
+
+	// $sql = "INSERT INTO `KbnStates` (`Id`, `KbnProjects_Id`, `Color`, `Limit`, `State`) VALUES (NULL, '{$_POST['KbnProjectsId']}', '{$_POST['Color']}', '{$_POST['Limit']}', '{$_POST['State']}');";
+	echo $sql;
+	
+	// $wpdb->query($wpdb->prepare($sql)); // Query
+
+	// a la codex
+	$wpdb->insert(
+		'KbnStates',
+		array(
+			'Id' => NULL,
+			'KbnProjects_Id' => $_POST['KnbProjects_Id'],
+			'Color' => $_POST['Color'],
+			'Limit' => $_POST['Limit'],
+			'State' => $_POST['State']
+		),
+		array(
+			'%d',
+			'%d',
+			'%s',
+			'%d',
+			'%s'
+		)
+
+	);
+
+} 
+
+/**
+* Delete
+*/
+
+if(isset($_POST['DeleteKanbanProject'])) {
+      echo $_POST['Kanban Project']; // Har vaerdien 'value' ;-)
+      $sql = "DELETE FROM `KbnStates` WHERE `id` ='" . $_POST['DeleteKanbanProject'] . "';";
+      $wpdb->query($sql);
+}
+
+/**
+* Detect if new Log post is created
+*/
+
+if (isset($_POST['KbnProjectSubmitted'])) { 
+	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+	$sql = "INSERT INTO `KbnProjects` ( `Id` ,  `Name`) VALUES(  '{$_POST['Id']}' ,  '{$_POST['Name']}'); "; 
+	$wpdb->query($wpdb->prepare($sql)); // Query
+	echo "Added row.<br />"; 
+	}
+
+/*
+* Edit update SQL
+*/
+
+if (isset($_POST['Color'])) { 
+
+	// echo "Ok vi er gennem if sætningen og sessionen er lig ..." . $_SESSION['KillBill'];
+
+	$wpdb->update(
+			'KbnStates',
+			array(
+				'KbnProjectsId' => $_POST['KbnProjectsId'],
+				'Color' => $_POST['Color'],
+				'Limit' => $_POST['Limit'],
+				'State' => $_POST['State']
+			),
+			array(
+				'Id' => $_POST['UpdateField']
+			)
+		
+		);
+			// exit(var_dump($wpdb->last_query));	
+			// $_POST['Limit'] = "xfzb678"; // for at undgaa at formularen gentages v. load
+			// echo "Nu er POST LIMIT LIG MED " . $_POST['Limit'];
+			// wp_reset_postdata();
+				$_SESSION['KillBill'] = 0;
+
+}
+
+/**
+* Table 
+*/
+screen_icon();
+echo "<div class='wrap'>";
+echo "<table class='widefat fixed' cellspacing='0'>"; 
+echo "<caption>  Kanban Projects  </caption>";
+echo "<tr>"; 
+//echo "<th class='manage-column column-columnname'><b>Id</b></th>"; 
+//echo "<th class='manage-column column-columnname'><b>Name</b></th>"; 
+//echo "<th class='manage-column column-columnname'><b>Edit / Delete</b></th>";
+
+echo "
+<thead><tr>
+<th class='draggable'>Id
+</th><th class='manage-column column-columnname'>KbnProjects_Id
+</th><th class='manage-column column-columnname'>Color
+</th><th class='manage-column column-columnname'>Limit
+</th><th class='manage-column column-columnname'>State
+<th class='manage-column column-columnname'><b>Edit / Delete</b></th>
+</th></tr>
+</thead>
+";
+
+
+echo "</tr>"; 
+
+$result = $wpdb->get_results("SELECT * FROM `KbnStates`") or trigger_error(mysql_error()); 
+
+foreach($result as $row){
+	echo "<tr>";  
+	echo "<td class='manage-column column-columnname'>" . $row->Id . "</td>";  
+	echo "<td class='manage-column column-columnname'>" . $row->KbnProjectsId . "</td>";
+	echo "<td class='manage-column column-columnname'>" . $row->Color . "</td>";  
+	echo "<td class='manage-column column-columnname'>" . $row->Limit . "</td>";  
+	echo "<td class='manage-column column-columnname'>" . $row->State . "</td>";  
+  
+	echo "<td class='manage-column column-columnname'>" 
+	. $KbnStatesCRUD->edit('', $row->Id)
+	. $KbnStatesCRUD->delete('', $row->Id) 
+	. $KbnStatesCRUD->newKbn()
+	.  "</td> "; // formatterer knapperne og giver dem en value
+	echo "</tr>"; 
+}
+
+echo "</table>";
+echo "</div>";
+?>

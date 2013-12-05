@@ -1,0 +1,39 @@
+<? 
+include('config.php'); // settings
+
+//print_r($_POST);
+echo 	"<h2>Edit State</h2>	<p>Here you can change the name of a state, it's color, the limit of work in progress. </p>";
+
+if (isset($_POST['EditKbnProject'])) {
+
+	$_SESSION['KillBill'] = 1;
+
+	$what = $_POST['EditKbnProject'];
+
+	$sql2 = "SELECT * FROM `KbnStates` WHERE `Id`= '" . $what . "'";
+	$wpdb->prepare($sql2);
+
+	$retenpost = $wpdb->get_results( $sql2 );
+
+	foreach($retenpost as $row){
+
+		echo "	<form action='' method='POST'> 
+
+		<p><b>Id: </b><br /><input type='text' name='Id' value='" . $row->Id . "' /> 
+
+		<p><b>Kanban Project Id (#dropdown here): </b><br /><input type='text' name='KbnProjectsId' value='" . $row->KbnProjectsId . "' /> 
+
+		<p><b>Color: </b><br /><input type='text' name='Color' value='" . $row->Color . "' /> 
+		<p><b>Limit: </b><br /><input type='text' name='Limit' value='" . $row->Limit . "' /> 
+		<p><b>State name: </b><br /><input type='text' name='State' value='" . $row->State . "' /> 
+		<p><b>Order: </b><br /><input type='text' name='Order' value='" . $row->Order . "' /> 
+		<input type='hidden' name='UpdateField' value='" . $_POST['EditKbnProject'] . "' />
+		<input type='Submit' name='KbnStatesEdited' value='OK'  />
+		</form> ";
+		}
+	}
+
+	else {
+		echo "KbnStates-edit.php error - S_POST['EditKbnProject'] not found ";	
+	}
+?>

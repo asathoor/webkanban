@@ -1,0 +1,12 @@
+.KbnNote {
+	padding: 10px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: small;
+	float: left;
+	border: thin solid #fff;
+	margin: 2px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+}

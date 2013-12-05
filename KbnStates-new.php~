@@ -1,0 +1,55 @@
+<? 
+include('config.php');
+
+echo "<div class='wrap'>";
+echo "<h2>New States</h2>";
+
+if (isset($_POST['NewKbnProjectSubmit2'])) { 
+	echo "Hva så er der klikket eller hva? Fra --new fil";
+	// $sql = "INSERT INTO `KbnStates` (`Name`) VALUES( '{$_POST['Id']}','{$_POST['KbnProjects_Id']}', '{$_POST['Color']}','{$_POST['Limit']}','{$_POST['State']}' ); "; // Id kan ikke indsaettes, autopdaterer
+	// $wpdb->insert( $table, $data, $format );
+
+	/*
+
+	$sql = $wpdb->insert(
+		'KbnStates',
+		array(
+			'Id' => '',
+			'KbnProjects_Id' => 'Ale is good',
+			'Color' => '{$_POST['Color']}',
+			'Limit' => '{$_POST['Limit']}',
+			'State' => '{$_POST['State']}'
+		),
+		array(
+			'%d',
+			'%d',
+			'%s',
+			'%d',
+			'%s'
+		)
+
+	);
+
+
+	$wpdb->query($wpdb->prepare($sql)); // Query
+
+
+	*/
+} 
+?>
+<div class ='wrapper'>
+<form action='' method='POST'> 
+	<fieldset>
+		<legend>Please enter the name of a new State </legend>
+
+			<p><b>State:</b><br /><input type='text' name='State'/> 
+			<p><b>Kanban Project Id:</b><br /><input type='text' name='KbnProjects_Id'/> 
+			<p><b>Color (Hex og text):</b><br /><input type='text' name='Color'/> 
+			<p><b>Limit:</b><br /><input type='text' name='Limit'/> 
+
+			<input type='hidden' name='KbnProjects_Id'/> 
+			<p><input type='Submit' value='Add Row' />
+			<input type='hidden' value='1' name='NewKbnProjectSubmit2' /> 
+	</fieldset>
+</form> 
+</div>

@@ -1,0 +1,95 @@
+<? 
+include('config.php');
+
+class kbnButton {
+	// CUD klasse
+	
+	public function edit($action) {
+		return "
+		<form action='"
+		. $action
+		."' method='post' enctype='multipart/form-data'>
+			<button name='Edit Log' value='value' type='submit'>Edit Log</button>
+		</form>
+		";
+	}
+	public function delete($action, $deleteMe) {
+		return "
+		<form action='"
+		. $action
+		. "' method='post' enctype='multipart/form-data'>
+			<button name='DeleteLog' value='"
+			. $deleteMe
+			."' type='submit'>Delete Log</button>
+		</form>	";
+		echo $deleteMe;
+				
+
+	}
+
+	public function newKbn($action) {
+		return "
+		<form action='"
+		. $action
+		."' method='post' enctype='multipart/form-data'>
+			<button name='NewLog' value='value' type='submit'>New Log Entry</button>
+		</form>
+		";
+	}
+}
+
+
+$kbnBtn = new kbnButton(); 
+
+
+echo "<div class='wrap'>";
+screen_icon();
+echo "<h2>Log list</h2>";
+
+echo "<table class='webkanban'>"; 
+echo "<tr>"; 
+echo "<td><b>Id</b></td>"; 
+echo "<td><b>Date</b></td>"; 
+echo "<td><b>KbnProjects Id</b></td>"; 
+echo "<td><b>KbnNotes Id</b></td>"; 
+echo "<td><b>KbnStates Id</b></td>"; 
+echo "</tr>"; 
+
+$result = $wpdb->get_results("SELECT * FROM `KbnLog`") or trigger_error(mysql_error()); 
+
+foreach($result as $row){
+	echo "<tr>";  
+	echo "<td>" . $row->Id . "</td>";  
+	echo "<td>" . $row->Date . "</td>";  
+	echo "<td>" . $row->KbnProjects_Id . "</td>";  
+	echo "<td>" . $row->KbnNotes_Id . "</td>";  
+	echo "<td>" . $row->KbnStates_Id . "</td>";  
+	echo "<td>" 
+	. $kbnBtn->edit(plugin_dir_url(__FILE__) . 'log-edit.php') 
+	// . $kbnBtn->delete(plugin_dir_url(__FILE__) . '/log-delete.php') 
+	. $kbnBtn->delete('', $row->Id) 
+	.  "</td> "; 
+	echo "</tr>"; 
+}
+
+echo "</table>"; 
+
+
+// echo $kbnBtn->newKbn(plugin_dir_url(__FILE__) . 'log-new.php');
+// saadan laves stien til plugin:
+// echo plugin_dir_url(__FILE__);
+
+/**
+* Sletter en post fra loggen
+*/
+
+if(isset($_POST['DeleteLog'])) {
+      echo "Deleted: ";
+      echo $_POST['DeleteLog']; // Har vaerdien 'value' ;-)
+      $sql = "DELETE FROM `KbnLog` WHERE `id` ='" . $_POST['DeleteLog'] . "';";
+      $wpdb->query($sql);
+}
+
+
+?>
+</div>

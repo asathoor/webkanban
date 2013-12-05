@@ -1,0 +1,57 @@
+.KbnTd { 
+	font-size: x-small;
+	font-family: sans-serif;
+}
+.KbnNote {
+	padding: 5px;
+	display: block;
+	width: 90%;
+	font-family: sans-serif;
+	font-size: xx-small;
+	border: thin solid grey;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	background:url('PNG/hvidTransp.png');
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+}
+.KbnHead {
+	background:url('PNG/headTransp.png');
+	background-repeat: repeat-x;
+	}
+#KbnIconMenu{
+	display: block;
+	float: left;
+	margin-left: 0px;
+	margin-top:30px;
+	margin-bottom: 20px;
+	max-width:100%;
+	clear:both;
+	}
+.KbnIconUl{
+	display: inline;
+	float: left;
+	overflow: hidden;
+	}
+.KbnMinimalOut{
+	style='position:relative;
+        float: left;
+        //height: 50px;
+        text-align: left;
+       	padding: 10px 10px 10px 10px;
+       	margin: 5px 5px 5px 5px;
+        width: 150px;
+        overflow: auto;
+        border: 1px solid black;
+}
+.KbnHelp {
+	max-width: 100%;
+	width: 550px;
+	clear: both;
+	border: 1px solid grey;
+	margin: 5px;
+	padding: 20px
+}
